@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        
+        div {
+            margin: 4px;
+            padding: 4px;
+        }
+        
+        p {
+            display: inline-block;
+            color: brown;
+            background: rgba(12, 0, 0, .25);
+            border-radius: 1em;
+        }
+        
+        #p1 {
+            position: absolute;
+            top: 120px;
+            right: 20px;
+            width: 300px;
+            height: 200px;
+        }
+        
+        .divcss {
+            position: relative;
+            width: auto;
+            height: 400px;
+            display: block;
+            border: 2px solid blue;
+            border-radius: 1em;
+            /*
+            background-image: url(http://pic.pimg.tw/meichin0813/4a7f12931338c.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+*/
+        }
+        
+        .list {
+            display: inline-block;
+            border: 2px solid red;
+            border-radius: 8px;
+        }
+        div p {
+            color: rgb(22, 4, 86);
+        }
+        div span p {
+            color: rgb(104, 178, 254);
+        }
+        div.group,span.group{
+            background-color: rgba(255, 255, 0, 0.5);
+            margin-left: 500px;
+        }
+
+    </style>
+</head>
+<body>
+   
+   <div><p>內容介紹~~sswer~</p><span><p>沒斷行的~sdfsdaa~~</p></span></div>
+    <div class="group">群組化</div>
+    <span class="group">Group化</span>
+   
+   
+    <div title="存款金額" id="table1">
+        <table border="5">
+            <caption>每月存款金額</caption>
+            <thead>
+                <tr>
+                    <th>月份</th>
+                    <th>每月存款金額</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>一月</td>
+                    <td>5000</td>
+                </tr>
+                <tr>
+                    <td>二月</td>
+                    <td>8000</td>
+                </tr>
+                <tr>
+                    <td colspan="2">合併成一格</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="divcss">
+    <span>HTML5新增的tag
+        <article>lorem</article>
+        <aside>lorem</aside><bdi>lorem</bdi>
+<!--        <command>lorem</command>-->
+        <details>lorem</details>
+        <summary>lorem</summary>
+        <figure>lorem</figure>
+        <figcaption>lorem</figcaption>
+        <footer>lorem</footer>
+    </span>
+    <span>
+        <header>lorem</header>
+        <hgroup>lorem</hgroup><mark>lorem</mark>
+        <meter>lorem</meter>
+        <nav>lorem</nav>
+        <progress>lorem</progress>
+        <ruby>lorem</ruby>
+        <rt>lorem</rt>
+        <rp>lorem</rp>
+        <sction>lorem</sction>
+<!--        <wbr>lorem</wbr>-->
+    </span>
+    </div>
+
+    <div>
+        <ol>
+            <li id="li1" class="list">按我圖片會消失</li>
+            <li id="li2" class="list">按我Paragraph會消失</li>
+            <li id="li3" class="list">按我表格會消失</li>
+            <li id="li4" class="list">按我藍色框會消失</li>
+            <li class="list">Test5</li>
+        </ol>
+    </div>
+    <div title="圖片們" style="border:1px solid red">
+        <a href="index.html"><img style="display:inline-block" width="100px" src="http://lorempixel.com/400/400/city" alt=""></a>
+        <a href="index.html"><img style="display:inline-block" width="200px" src="http://lorempixel.com/400/400/city" alt=""></a>
+        <a href="index.html"><img id="imgcss1" style="display:inline-block" src="http://lorempixel.com/400/400/city" alt=""></a>
+        <img style="display:inline-block" width="200px" src="http://pic.pimg.tw/meichin0813/4a7f12931338c.jpg" alt="">
+        <img id="imgcss2" style="display:inline-block" width="400px" src="http://pic.pimg.tw/meichin0813/4a7f12931338c.jpg" alt="">
+        <img style="display:inline-block" src="http://pic.pimg.tw/meichin0813/4a7f12931338c.jpg" alt="">
+    </div>
+    <div>
+        <div class="divcss">
+            <p id="p1">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia fuga unde, sed inventore fugit reiciendis odit vitae vel blanditiis praesentium voluptates dolor dolore ipsum voluptate labore obcaecati minima iste beatae!</p>
+        </div>
+        <div class="divcss">
+            <p>這是一個段落</p>
+        </div>
+        <div class="divcss">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic dolore, itaque fugiat! Neque mollitia, qui cum ipsa accusantium nam magni totam quia repellat. Ipsam adipisci veniam harum facilis nemo ex.</div>
+        <div class="divcss">所以</div>
+        <div class="divcss">練習</div>
+    </div>
+
+    <script src='https://code.jquery.com/jquery-3.2.1.min.js'></script>
+    <script>
+        var hiddenBox = $("#imgcss1");
+        var hiddenBox2 = $('#imgcss2');
+
+        $("#li1").on("click", function(event) {
+            hiddenBox.slideToggle();
+            hiddenBox2.slideToggle();
+        });
+
+        var pp = $("#p1");
+        $("#li2").on("click", function(event) {
+            pp.toggle();
+        });
+
+        var table1 = $('#table1');
+        $("#li3").on("click", function(event) {
+            table1.fadeToggle();
+        });
+
+        var divcss1 = $('.divcss');
+        $('#li4').on("click", function(event) {
+            divcss1.fadeToggle();
+        });
+        
+    </script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+   {
+      "folders":
+      [
+        {
+            "follow_symlinks": true,
+            "path":"/Applications/XAMPP/xamppfiles/htdocs/shop"
+        }
+      ],
+      "settings": {
+                     "xdebug": {
+                                       "url": "http://ios.yvts.edu.tw:6080",
+                     }
+      }
+   }

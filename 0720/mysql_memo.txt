@@ -1,0 +1,210 @@
+# 設定 MySQL 的管理密碼
+$ mysqladmin -u root password 1qaz@wsx
+
+若出現: mysqladmin: connect to server at 'localhost' failed
+       error: 'Access denied for user 'root'@'localhost' (using password: NO)'
+
+解決的方法:
+1. 停止 MYSql
+2. sudo nano /Applications/XAMPP/etc/my.cnf
+   找到 [Mysqld] 加入以下:
+   skip-grant-tables
+3. 重新啟動 Mysql
+4. $ mysql -u root mysql
+5. [mysql]> UPDATE user SET Password=PASSWORD('1qaz@wsx') where USER='root';
+   [mysql]> FLUSH PRIVILEGES;
+   [mysql]> quit;
+
+6. sudo nano /Applications/XAMPP/etc/my.cnf
+   找到 [Mysqld] 註解以下:
+   #skip-grant-tables
+7. 重新啟動 Mysql
+
+# 登入 Mysql
+  $ mysql -u root -p
+
+# 修改使用者密碼
+  $ mysqladmin -u root -p password
+    先輸入舊密碼
+    輸入新密碼
+    輸入舊密碼
+    再次輸入舊密碼
+
+
+$ mysql -u root -p
+  mysql> show  databases;
+  mysql> select * from class1.student;
+
+  mysql> create database mydb character set utf8 collate utf8_unicode_ci;
+  mysql> alter  database mydb character set utf8 ;
+
+  建立TABLE，並建立PRIMAY KEY和AUTO_INCREMENT(自動遞增)欄位
+  mysql> use mydb;
+  mysql> create table mytable(field1 INT(10) AUTO_INCREMENT, field2 VARCHAR(20), PRIMARY KEY(field1));
+  
+  mysql> show columns from mytable;
+
+  在TABLE內新增欄位: 
+  ALTER TABLE 資料表名稱 ADD COLUMN 欄位名稱 形態(長度);
+  mysql> alter table mytable add field3 int(10);
+  mysql> alter table mytable add field4 int(10) after field3;
+  mysql> alter table mytable add field0 char(2) first;
+
+  修改原欄位名稱、修改資料長度、資料形態: 
+  ALTER TABLE 資料表名稱 CHANGE COLUMN 舊欄位 新欄位 新形態(新長度), ADD INDEX(新欄位);
+  mysql> alter table mytable  change column field1 new_field1 int(20);
+
+  移除PRIMAY KEY
+  ALTER TABLE 資料表名稱 DROP PRIMARY KEY;
+  mysql> alter table mytable drop primary key; 
+
+  移除欄位
+  ALTER TABLE 資料表名稱 DROP COLUMN 欄位名稱;
+  mysql> alter table mytable drop column field3;
+
+  中文欄名
+  mysql> select cid as '座號', cname as '姓名', csex as '性別' from class1.student;
+
+  去除重複欄位
+  mysql> select distinct csex from class1.student;
+   
+  
+  mysql> select * from student where cid > 5 and csex='m';
+
+  mysql> select * from student where not cid > 5 and csex='m';
+  mysql> select * from student where !(cid > 5) and csex='m';
+
+  mysql> select * from class1.student where cid between 4 and 6;
+  mysql> select * from class1.student where cid > 3 && cid <7;
+
+  mysql> select * from class1.student where cbirthday between '1987-04-04' and '1988-12-01';
+
+  mysql> SELECT * FROM `student` WHERE cid in(1,3,5,7,9);
+  mysql> SELECT * FROM `student` WHERE cphone like '0918%';
+  mysql> SELECT * FROM `student` WHERE cname like '%林%'
+
+  排序:
+  SELECT * FROM student order by cBirthday asc;     預設
+  SELECT * FROM student order by cBirthday desc;
+
+  限制查詢顯示總筆數
+  SELECT * FROM student order by cBirthday desc. limit 5;
+
+  mysql> ALTER TABLE `student` ADD `cHeight` TINYINT(3) UNSIGNED DEFAULT NULL;
+
+  mysql> ALTER TABLE `student` ADD `cWeight` TINYINT(3) UNSIGNED DEFAULT NULL;
+
+  mysql>
+         UPDATE `student` SET `cHeight` = '160', `cWeight` = '49' WHERE `student`.`cID` = 01;
+         UPDATE `student` SET `cHeight` = '175', `cWeight` = '72' WHERE `student`.`cID` = 02;
+         UPDATE `student` SET `cHeight` = '162', `cWeight` = '65' WHERE `student`.`cID` = 03;
+         UPDATE `student` SET `cHeight` = '178', `cWeight` = '72' WHERE `student`.`cID` = 04;
+         UPDATE `student` SET `cHeight` = '164', `cWeight` = '45' WHERE `student`.`cID` = 05;
+         UPDATE `student` SET `cHeight` = '172', `cWeight` = '75' WHERE `student`.`cID` = 06;
+         UPDATE `student` SET `cHeight` = '158', `cWeight` = '56' WHERE `student`.`cID` = 07;
+         UPDATE `student` SET `cHeight` = '166', `cWeight` = '48' WHERE `student`.`cID` = 08;
+         UPDATE `student` SET `cHeight` = '168', `cWeight` = '60' WHERE `student`.`cID` = 09;
+         UPDATE `student` SET `cHeight` = '169', `cWeight` = '68' WHERE `student`.`cID` = 10 
+
+mysql>
+
+select cid as '座號', cname as '姓名', cheight as '身高', cweight as '體重', (cheight-70)*0.6 as '標準體重', (cheight-70)*0.6 - cweight as '差距' from class1.student;
+
+
+select cid as '座號', cname as '姓名', cheight as '身高', cweight as '體重', round(cWeight/POW(cHeight/100,2),2) as 'BMI值' from student
+
+SELECT * FROM `student` WHERE DAYNAME(`cbirthday`) = 'Tuesday';
+
+SELECT * FROM `student` WHERE  YEAR(NOW())   - YEAR(`cbirthday`)  > 20;
+
+建立 scroellist 資料表：
+CREATE TABLE IF NOT EXISTS `scorelist` (
+  `id` tinyint(4) unsigned NOT NULL auto_increment,
+  `cID` tinyint(2) unsigned zerofill NOT NULL,
+  `course` enum('國文','英文','數學') collate utf8_unicode_ci NOT NULL default '國文',
+  `score` tinyint(3) unsigned NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=31 ;
+
+INSERT INTO `scorelist` (`id`, `cID`, `course`, `score`) VALUES
+(1, 01, '國文', 82),
+(2, 02, '國文', 68),
+(3, 03, '國文', 78),
+(4, 04, '國文', 85),
+(5, 05, '國文', 80),
+(6, 06, '國文', 76),
+(7, 07, '國文', 90),
+(8, 08, '國文', 87),
+(9, 09, '國文', 78),
+(10, 10, '國文', 65),
+(11, 01, '英文', 67),
+(12, 02, '英文', 87),
+(13, 03, '英文', 88),
+(14, 04, '英文', 92),
+(15, 05, '英文', 55),
+(16, 06, '英文', 62),
+(17, 07, '英文', 65),
+(18, 08, '英文', 40),
+(19, 09, '英文', 89),
+(20, 10, '英文', 64),
+(21, 01, '數學', 87),
+(22, 02, '數學', 52),
+(23, 03, '數學', 76),
+(24, 04, '數學', 56),
+(25, 05, '數學', 72),
+(26, 06, '數學', 80),
+(27, 07, '數學', 38),
+(28, 08, '數學', 68),
+(29, 09, '數學', 90),
+(30, 10, '數學', 61);
+
+mysql> SELECT SUM(`score`) FROM `scorelist`;
+
+mysql>
+SELECT SUM(`score`) FROM `scorelist` where `course` = '國文'; 
+
+SELECT AVG(`score`) FROM `scorelist` where `course` = '國文';
+
+select count(*) from student;
+
+
+SELECT MAX(`score`) FROM `scorelist` where `course` = '國文';
+
+SELECT MAX(`score`) FROM `scorelist` where `course` = '數學';
+
+select cid, SUM(`score`) from `scorelist` group by `cid`;
+補充: group by 也可以做條件篩選但不是用 WHERE , 須改用 HAVING
+ex: 
+select cid, SUM(`score`) from `scorelist` group by `cid` HAVING cid <=5;
+
+INSERT INTO `student`
+(`cName`,`cSex`,`cBirthday`,`cEmail`,`cPhone`,`cAddr`,`cHeight`,`cWeight`)
+VALUES('Bill1','男','1988-02-10','Bill1@bb.com','0925932221','台北','176','89');
+
+INSERT INTO `student`
+(`cName`,`cSex`,`cBirthday`,`cEmail`,`cPhone`,`cAddr`,`cHeight`,`cWeight`) VALUES
+('Bill2','M','1988-02-10','Bill2@bb.com','0925932223','台北','170','81'),
+('Bill3','M','1988-02-10','Bill3@bb.com','0925932223','台北','172','84');
+
+
+update `student` set `cheight`=174, `cweight`=92 where `cid`=11;
+
+delete from `student` where cid > 11;
+
+結合 2 張資料表:
+select student.cid, student.cname, scorelist.score from student, scorelist where student.cid = scorelist.cid;
+
+
+select student.cid, student.cname, scorelist.score from student, scorelist where student.cid = scorelist.cid AND scorelist.course = '國文';
+
+select student.cid, student.cname, SUM(scorelist.score), AVG(scorelist.score) from student, scorelist where student.cid = scorelist.cid group by student.cid, student.cname;
+
+
+
+
+
+
+
+
+
+
